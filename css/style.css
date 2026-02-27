@@ -1,0 +1,346 @@
+/* === Reset & Base === */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 60px;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #333;
+    background: #fff;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* === Navigation === */
+#top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e0e0e0;
+    height: 52px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #E8820C;
+}
+
+/* === Header === */
+#hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#hero h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    font-size: 1.05rem;
+    color: #555;
+    max-width: 800px;
+    margin-bottom: 32px;
+}
+
+.system-specs {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.spec {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.spec-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    font-weight: 600;
+}
+
+.spec-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* === Sections === */
+section {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid #eee;
+}
+
+section:last-child {
+    border-bottom: none;
+}
+
+section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.section-desc {
+    color: #555;
+    font-size: 0.95rem;
+    max-width: 800px;
+    margin-bottom: 32px;
+}
+
+/* === Scenario Legend === */
+.scenario-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    font-size: 0.88rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* === Chart Blocks === */
+.chart-block {
+    margin-bottom: 48px;
+}
+
+.chart-block h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.chart-caption {
+    font-size: 0.88rem;
+    color: #666;
+    margin-bottom: 16px;
+    max-width: 700px;
+}
+
+.plot-container {
+    width: 100%;
+    min-height: 450px;
+    position: relative;
+}
+
+/* === Lazy Loading Placeholder === */
+.lazy-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 450px;
+    background: #fafafa;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    color: #888;
+    gap: 16px;
+}
+
+.lazy-placeholder button {
+    padding: 8px 24px;
+    background: #E8820C;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.lazy-placeholder button:hover {
+    background: #c96e08;
+}
+
+/* === Filter Controls === */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-end;
+    margin-bottom: 16px;
+    padding: 16px 20px;
+    background: #f8f8f8;
+    border-radius: 8px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+}
+
+.btn-group {
+    display: flex;
+    gap: 0;
+}
+
+.btn-group .btn {
+    padding: 6px 16px;
+    background: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #555;
+    transition: all 0.15s;
+}
+
+.btn-group .btn:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.btn-group .btn:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.btn-group .btn:not(:first-child) {
+    border-left: none;
+}
+
+.btn-group .btn.active {
+    background: #E8820C;
+    color: #fff;
+    border-color: #E8820C;
+}
+
+.btn-group .btn:hover:not(.active) {
+    background: #f0f0f0;
+}
+
+.range-slider {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.range-slider input[type="range"] {
+    width: 100px;
+    accent-color: #E8820C;
+}
+
+select {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: #333;
+}
+
+/* === Footer === */
+footer {
+    padding: 32px 0;
+    text-align: center;
+    color: #888;
+    font-size: 0.85rem;
+    border-top: 1px solid #eee;
+    margin-top: 48px;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    #hero h1 {
+        font-size: 1.4rem;
+    }
+
+    .system-specs {
+        gap: 16px;
+    }
+
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .range-slider input[type="range"] {
+        width: 100%;
+    }
+
+    .nav-links {
+        gap: 16px;
+    }
+
+    .scenario-legend {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .plot-container {
+        min-height: 350px;
+    }
+}
