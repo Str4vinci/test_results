@@ -197,8 +197,8 @@
 
         const layout = {
             ...PLOT_DEFAULTS,
-            height: 450,
-            margin: { l: 60, r: 60, t: 30, b: 30 }
+            height: 600,
+            margin: { l: 60, r: 80, t: 60, b: 60 }
         };
         delete layout.showlegend;
 
@@ -247,14 +247,14 @@
 
         const layout = {
             ...PLOT_DEFAULTS,
-            height: 550,
+            height: 600,
             scene: {
                 xaxis: { title: 'Grid Independence (%)' },
                 yaxis: { title: 'NPV (EUR)' },
                 zaxis: { title: 'ZEB Ratio' },
                 camera: { eye: { x: 1.5, y: 1.5, z: 0.8 } }
             },
-            margin: { l: 0, r: 0, t: 10, b: 10 }
+            margin: { l: 0, r: 0, t: 30, b: 20 }
         };
 
         Plotly.newPlot('chart-pareto-3d', traces, layout, PLOT_CONFIG);

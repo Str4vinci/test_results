@@ -1,5 +1,7 @@
 /* === Reset & Base === */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -185,8 +187,9 @@ section h2 {
 
 .plot-container {
     width: 100%;
-    min-height: 450px;
+    min-height: 550px;
     position: relative;
+    margin-top: 16px;
 }
 
 /* === Lazy Loading Placeholder === */
@@ -195,7 +198,7 @@ section h2 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 450px;
+    min-height: 550px;
     background: #fafafa;
     border: 2px dashed #ddd;
     border-radius: 8px;
@@ -341,6 +344,6 @@ footer {
     }
 
     .plot-container {
-        min-height: 350px;
+        min-height: 450px;
     }
 }
