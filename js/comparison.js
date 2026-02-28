@@ -24,7 +24,6 @@
         { col: 'PV_Production_kWh', label: 'PV Production (kWh)', suffix: ' kWh' },
         { col: 'Import_kWh', label: 'Grid Import (kWh)', suffix: ' kWh' },
         { col: 'Export_kWh', label: 'Grid Export (kWh)', suffix: ' kWh' },
-        { col: 'Battery_SOH_%', label: 'Battery SOH (%)', suffix: '%' },
         { col: 'Load_kWh', label: 'Annual Load (kWh)', suffix: ' kWh' }
     ];
 
@@ -175,25 +174,57 @@
         // Remove placeholder
         if (placeholder) placeholder.remove();
 
-        // Build SOH traces — sample to daily for performance (every 96 points for 15-min data)
-        const traces = [];
+        // Build SOH and other traces
+        const sohTraces = [];
+        const cycleTraces = [];
+        const compTraces = [];
         const replacementShapes = [];
 
-        SCENARIO_KEYS.forEach(key => {
+        SCENARIO_KEYS.forEach((key, idx) => {
             const data = degradation[key];
             // Sample every 96th row (daily from 15-min)
             const sampled = data.filter((_, i) => i % 96 === 0);
             const totalPoints = sampled.length;
-            // Linear time axis spanning 0 to 20 years
             const years = sampled.map((_, i) => (i / totalPoints) * 20);
 
-            traces.push({
+            sohTraces.push({
                 x: years,
                 y: sampled.map(r => r.SOH),
                 name: SCENARIO_LABELS[key],
                 mode: 'lines',
                 line: { color: COLORS[key], width: 1.5 },
                 hovertemplate: 'Year %{x:.1f}: SOH %{y:.1f}%<extra>' + SCENARIO_LABELS[key] + '</extra>'
+            });
+
+            cycleTraces.push({
+                x: years,
+                y: sampled.map(r => r.Cumulative_FEC),
+                name: SCENARIO_LABELS[key],
+                mode: 'lines',
+                line: { color: COLORS[key], width: 1.5 },
+                hovertemplate: 'Year %{x:.1f}: %{y:.0f} cycles<extra>' + SCENARIO_LABELS[key] + '</extra>'
+            });
+
+            // Components: using dashed for cycle, solid for calendar
+            // Only need to show these if we want, maybe a stacked area or separate traces?
+            compTraces.push({
+                x: years,
+                y: sampled.map(r => r.Global_Cycle_Degradation * 100),
+                name: SCENARIO_LABELS[key] + ' (Cycle)',
+                mode: 'lines',
+                line: { color: COLORS[key], width: 1.5, dash: 'dot' },
+                hovertemplate: 'Year %{x:.1f}: %{y:.1f}% cycle loss<extra>' + SCENARIO_LABELS[key] + '</extra>',
+                visible: idx === 0 ? true : 'legendonly' // Only show Porto by default to avoid clutter
+            });
+
+            compTraces.push({
+                x: years,
+                y: sampled.map(r => r.Global_Calendar_Degradation * 100),
+                name: SCENARIO_LABELS[key] + ' (Calendar)',
+                mode: 'lines',
+                line: { color: COLORS[key], width: 1.5, dash: 'solid' },
+                hovertemplate: 'Year %{x:.1f}: %{y:.1f}% calendar loss<extra>' + SCENARIO_LABELS[key] + '</extra>',
+                visible: idx === 0 ? true : 'legendonly'
             });
 
             // Find replacement events (where SOH jumps up)
@@ -211,30 +242,35 @@
 
         const degLayout = {
             ...PLOT_DEFAULTS,
-            xaxis: {
-                title: 'Year',
-                dtick: 1,
-                range: [0, 20],
-                gridcolor: '#eee'
-            },
-            yaxis: {
-                title: 'State of Health (%)',
-                range: [65, 102],
-                gridcolor: '#eee'
-            },
+            height: 400,
+            xaxis: { title: 'Year', dtick: 1, range: [0, 20], gridcolor: '#eee' },
+            yaxis: { title: 'State of Health (%)', range: [65, 102], gridcolor: '#eee' },
             shapes: [
-                // EOL threshold at 70%
-                {
-                    type: 'line',
-                    x0: 0, x1: 20,
-                    y0: 70, y1: 70,
-                    line: { color: '#C62828', width: 1.5, dash: 'dash' }
-                },
+                { type: 'line', x0: 0, x1: 20, y0: 70, y1: 70, line: { color: '#C62828', width: 1.5, dash: 'dash' } },
                 ...replacementShapes
             ]
         };
 
-        Plotly.newPlot('chart-degradation', traces, degLayout, PLOT_CONFIG);
+        const cyclesLayout = {
+            ...PLOT_DEFAULTS,
+            height: 400,
+            xaxis: { title: 'Year', dtick: 1, range: [0, 20], gridcolor: '#eee' },
+            yaxis: { title: 'Cumulative Eq. Full Cycles', gridcolor: '#eee' }
+        };
+
+        const compLayout = {
+            ...PLOT_DEFAULTS,
+            height: 400,
+            xaxis: { title: 'Year', dtick: 1, range: [0, 20], gridcolor: '#eee' },
+            yaxis: { title: 'Cumulative Life Loss (%)', gridcolor: '#eee' }
+        };
+
+        document.getElementById('chart-degradation-cycles').style.display = 'block';
+        document.getElementById('chart-degradation-components').style.display = 'block';
+
+        Plotly.newPlot('chart-degradation-soh', sohTraces, degLayout, PLOT_CONFIG);
+        Plotly.newPlot('chart-degradation-cycles', cycleTraces, cyclesLayout, PLOT_CONFIG);
+        Plotly.newPlot('chart-degradation-components', compTraces, compLayout, PLOT_CONFIG);
     };
 
     // Lazy-load via IntersectionObserver
@@ -247,6 +283,6 @@
         });
     }, { rootMargin: '200px' });
 
-    const degContainer = document.getElementById('chart-degradation');
+    const degContainer = document.getElementById('chart-degradation-soh');
     if (degContainer) observer.observe(degContainer);
 })();

@@ -91,13 +91,21 @@
             <!-- 1c: Battery Degradation -->
             <div class="chart-block">
                 <h3>Battery Degradation</h3>
-                <p class="chart-caption">Battery State of Health (SOH) evolution over 20 years. Vertical dashed lines indicate battery replacement events (at 70% SOH). Data loaded on demand.</p>
-                <div id="chart-degradation" class="plot-container">
+                <p class="chart-caption">Battery State of Health (SOH) evolution over 20 years. Vertical dashed lines indicate battery replacement events (at 70% SOH).</p>
+                <div id="chart-degradation-soh" class="plot-container">
                     <div class="lazy-placeholder" id="degradation-placeholder">
                         <p>Scroll to load degradation data (~9 MB)</p>
                         <button onclick="window.loadDegradation()">Load now</button>
                     </div>
                 </div>
+                
+                <h4 style="margin-top:2em;margin-bottom:0.5em;">Cumulative Cycles</h4>
+                <p class="chart-caption">Cumulative Equivalent Full Cycles over the battery life.</p>
+                <div id="chart-degradation-cycles" class="plot-container" style="min-height: 400px; display: none;"></div>
+
+                <h4 style="margin-top:2em;margin-bottom:0.5em;">Degradation Components</h4>
+                <p class="chart-caption">Calendar vs Cycle life loss breakdown.</p>
+                <div id="chart-degradation-components" class="plot-container" style="min-height: 400px; display: none;"></div>
             </div>
         </section>
 

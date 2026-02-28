@@ -56,10 +56,10 @@ const PLOT_DEFAULTS = {
     showlegend: true,
     legend: {
         orientation: 'h',
-        yanchor: 'bottom',
-        y: 1.05,
-        xanchor: 'right',
-        x: 1,
+        yanchor: 'top',
+        y: -0.15,
+        xanchor: 'center',
+        x: 0.5,
         font: { size: 12 }
     }
 };
