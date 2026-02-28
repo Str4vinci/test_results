@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
+
 <body>
     <nav id="top-nav">
         <div class="nav-inner">
@@ -23,7 +25,9 @@
     <header id="hero">
         <div class="container">
             <h1>PV+Battery System Analysis: Porto vs Berlin</h1>
-            <p class="subtitle">Interactive visualization of photovoltaic and battery energy storage simulation results for residential systems. This dashboard presents 20-year performance projections, multi-objective optimization outcomes, and PV orientation analysis.</p>
+            <p class="subtitle">Interactive visualization of photovoltaic and battery energy storage simulation results
+                for residential systems. This dashboard presents 20-year performance projections, multi-objective
+                optimization outcomes, and PV orientation analysis.</p>
             <div class="system-specs">
                 <div class="spec">
                     <span class="spec-label">PV System</span>
@@ -49,7 +53,9 @@
         <!-- Section 1: Porto vs Berlin Comparison -->
         <section id="comparison">
             <h2>Porto vs Berlin Comparison</h2>
-            <p class="section-desc">Comparison of five scenarios isolating the effects of location, electricity tariffs, and load profiles on system performance and economics. The base system (5 &times; 550W PV + 4 kWh battery) is identical across all scenarios.</p>
+            <p class="section-desc">Comparison of five scenarios isolating the effects of location, electricity tariffs,
+                and load profiles on system performance and economics. The base system (5 &times; 550W PV + 4 kWh
+                battery) is identical across all scenarios.</p>
 
             <div class="scenario-legend">
                 <div class="legend-item">
@@ -77,47 +83,56 @@
             <!-- 1a: Performance -->
             <div class="chart-block">
                 <h3>20-Year Performance</h3>
-                <p class="chart-caption">Annual energy flows and grid independence across all scenarios. Use the buttons to switch between metrics.</p>
+                <p class="chart-caption">Annual energy flows and grid independence across all scenarios. Use the buttons
+                    to switch between metrics.</p>
                 <div id="chart-performance" class="plot-container"></div>
             </div>
 
             <!-- 1b: Economics -->
             <div class="chart-block">
                 <h3>Economic Analysis</h3>
-                <p class="chart-caption">Cumulative savings over the system lifetime. The breakeven point is where the line crosses zero. Toggle between nominal and NPV (Net Present Value) views.</p>
+                <p class="chart-caption">Cumulative savings over the system lifetime. The breakeven point is where the
+                    line crosses zero. Toggle to view either Savings, No System cumulative costs, or With System
+                    cumulative costs in both nominal and NPV (Net Present Value).</p>
                 <div id="chart-economics" class="plot-container"></div>
             </div>
 
             <!-- 1c: Battery Degradation -->
             <div class="chart-block">
                 <h3>Battery Degradation</h3>
-                <p class="chart-caption">Battery State of Health (SOH) evolution over 20 years. Vertical dashed lines indicate battery replacement events (at 70% SOH).</p>
+                <p class="chart-caption">Battery State of Health (SOH) evolution over 20 years. Vertical dashed lines
+                    indicate battery replacement events (at 70% SOH).</p>
                 <div id="chart-degradation-soh" class="plot-container">
                     <div class="lazy-placeholder" id="degradation-placeholder">
                         <p>Scroll to load degradation data (~9 MB)</p>
                         <button onclick="window.loadDegradation()">Load now</button>
                     </div>
                 </div>
-                
+
                 <h4 style="margin-top:2em;margin-bottom:0.5em;">Cumulative Cycles</h4>
                 <p class="chart-caption">Cumulative Equivalent Full Cycles over the battery life.</p>
-                <div id="chart-degradation-cycles" class="plot-container" style="min-height: 400px; display: none;"></div>
+                <div id="chart-degradation-cycles" class="plot-container" style="min-height: 400px; display: none;">
+                </div>
 
                 <h4 style="margin-top:2em;margin-bottom:0.5em;">Degradation Components</h4>
                 <p class="chart-caption">Calendar vs Cycle life loss breakdown.</p>
-                <div id="chart-degradation-components" class="plot-container" style="min-height: 400px; display: none;"></div>
+                <div id="chart-degradation-components" class="plot-container" style="min-height: 400px; display: none;">
+                </div>
             </div>
         </section>
 
         <!-- Section 2: System Optimization -->
         <section id="optimization">
             <h2>System Optimization (NSGA-II Pareto Fronts)</h2>
-            <p class="section-desc">Multi-objective optimization results using NSGA-II, exploring trade-offs between system cost (NPV), grid independence, and zero-energy building (ZEB) ratio. Design variables include number of PV modules, battery capacity, tilt angle, and azimuth.</p>
+            <p class="section-desc">Multi-objective optimization results using NSGA-II, exploring trade-offs between
+                system cost (NPV), grid independence, and zero-energy building (ZEB) ratio. Design variables include
+                number of PV modules, battery capacity, tilt angle, and azimuth.</p>
 
             <!-- 2a: 2D Pareto with Filters -->
             <div class="chart-block">
                 <h3>Pareto Front Explorer</h3>
-                <p class="chart-caption">NPV vs Grid Independence trade-off. Use the filters below to explore different design subsets. Points are colored by ZEB ratio.</p>
+                <p class="chart-caption">NPV vs Grid Independence trade-off. Use the filters below to explore different
+                    design subsets. Points are colored by ZEB ratio.</p>
 
                 <div class="filter-controls">
                     <div class="filter-group">
@@ -129,7 +144,8 @@
                         </div>
                     </div>
                     <div class="filter-group">
-                        <label for="battery-slider">Battery: <span id="battery-range-label">0 &ndash; 15 kWh</span></label>
+                        <label for="battery-slider">Battery: <span id="battery-range-label">0 &ndash; 15
+                                kWh</span></label>
                         <div class="range-slider">
                             <input type="range" id="battery-min" min="0" max="15" step="0.5" value="0">
                             <input type="range" id="battery-max" min="0" max="15" step="0.5" value="15">
@@ -149,14 +165,16 @@
             <!-- 2b: Parallel Coordinates -->
             <div class="chart-block">
                 <h3>Multi-Dimensional Explorer</h3>
-                <p class="chart-caption">Parallel coordinates plot showing all design variables and objectives. Drag along any axis to filter solutions. Color indicates NPV.</p>
+                <p class="chart-caption">Parallel coordinates plot showing all design variables and objectives. Drag
+                    along any axis to filter solutions. Color indicates NPV.</p>
                 <div id="chart-parcoords" class="plot-container"></div>
             </div>
 
             <!-- 2c: 3D Scatter -->
             <div class="chart-block">
                 <h3>3D Objective Space</h3>
-                <p class="chart-caption">Three-dimensional view of the Pareto front. Click and drag to rotate, scroll to zoom.</p>
+                <p class="chart-caption">Three-dimensional view of the Pareto front. Click and drag to rotate, scroll to
+                    zoom.</p>
                 <div id="chart-pareto-3d" class="plot-container"></div>
             </div>
         </section>
@@ -164,12 +182,15 @@
         <!-- Section 3: PV Orientation -->
         <section id="orientation">
             <h2>PV Orientation Optimization</h2>
-            <p class="section-desc">Grid search over azimuth and slope angles for the Porto location, evaluating the NPV impact of PV panel orientation. The optimal orientation maximizes economic returns accounting for solar geometry and energy balance.</p>
+            <p class="section-desc">Grid search over azimuth and slope angles for the Porto location, evaluating the NPV
+                impact of PV panel orientation. The optimal orientation maximizes economic returns accounting for solar
+                geometry and energy balance.</p>
 
             <!-- 3a: Heatmap -->
             <div class="chart-block">
                 <h3>Orientation Landscape</h3>
-                <p class="chart-caption">NPV as a function of panel azimuth and slope angle. The marker indicates the optimal configuration.</p>
+                <p class="chart-caption">NPV as a function of panel azimuth and slope angle. The marker indicates the
+                    optimal configuration.</p>
                 <div id="chart-heatmap" class="plot-container"></div>
             </div>
 
@@ -193,4 +214,5 @@
     <script src="js/pareto.js"></script>
     <script src="js/azislope.js"></script>
 </body>
+
 </html>

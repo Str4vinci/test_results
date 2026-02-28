@@ -101,19 +101,51 @@
 
     const econButtons = [
         {
-            label: 'NPV',
+            label: 'Savings (NPV)',
             method: 'update',
             args: [
-                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], savingsCol)) },
+                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], 'Savings_Cumulative_NPV')) },
                 { 'yaxis.title': 'Cumulative Savings NPV (EUR)' }
             ]
         },
         {
-            label: 'Nominal',
+            label: 'Savings (Nom)',
             method: 'update',
             args: [
-                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], savingsNomCol)) },
+                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], 'Savings_Cumulative')) },
                 { 'yaxis.title': 'Cumulative Savings Nominal (EUR)' }
+            ]
+        },
+        {
+            label: 'No Sys Cost (NPV)',
+            method: 'update',
+            args: [
+                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], 'Cost_No_Sys_Cumulative_NPV')) },
+                { 'yaxis.title': 'Cumulative Cost NPV (EUR)' }
+            ]
+        },
+        {
+            label: 'No Sys Cost (Nom)',
+            method: 'update',
+            args: [
+                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], 'Cost_No_Sys_Cumulative')) },
+                { 'yaxis.title': 'Cumulative Cost Nominal (EUR)' }
+            ]
+        },
+        {
+            label: 'With Sys Cost (NPV)',
+            method: 'update',
+            args: [
+                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], 'Cost_System_Cumulative_NPV')) },
+                { 'yaxis.title': 'Cumulative Cost NPV (EUR)' }
+            ]
+        },
+        {
+            label: 'With Sys Cost (Nom)',
+            method: 'update',
+            args: [
+                { y: SCENARIO_KEYS.map(key => DataLoader.column(costs[key], 'Cost_System_Cumulative')) },
+                { 'yaxis.title': 'Cumulative Cost Nominal (EUR)' }
             ]
         }
     ];
