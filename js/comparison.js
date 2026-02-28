@@ -35,6 +35,7 @@
             mode: 'lines+markers',
             line: { color: COLORS[key], width: 2 },
             marker: { size: 5, color: COLORS[key] },
+            visible: (key === 'porto' || key === 'berlin_de_full') ? true : 'legendonly',
             hovertemplate: `%{x}: %{y:.1f}${metrics[metricIdx].suffix}<extra>${SCENARIO_LABELS[key]}</extra>`
         }));
     }
@@ -95,6 +96,7 @@
             mode: 'lines+markers',
             line: { color: COLORS[key], width: 2 },
             marker: { size: 5, color: COLORS[key] },
+            visible: (key === 'porto' || key === 'berlin_de_full') ? true : 'legendonly',
             hovertemplate: '%{x}: %{y:,.0f} EUR<extra>' + SCENARIO_LABELS[key] + '</extra>'
         }));
     }
@@ -225,6 +227,7 @@
                 name: SCENARIO_LABELS[key],
                 mode: 'lines',
                 line: { color: COLORS[key], width: 1.5 },
+                visible: (key === 'porto' || key === 'berlin_de_full') ? true : 'legendonly',
                 hovertemplate: 'Year %{x:.1f}: SOH %{y:.1f}%<extra>' + SCENARIO_LABELS[key] + '</extra>'
             });
 
@@ -234,6 +237,7 @@
                 name: SCENARIO_LABELS[key],
                 mode: 'lines',
                 line: { color: COLORS[key], width: 1.5 },
+                visible: (key === 'porto' || key === 'berlin_de_full') ? true : 'legendonly',
                 hovertemplate: 'Year %{x:.1f}: %{y:.0f} cycles<extra>' + SCENARIO_LABELS[key] + '</extra>'
             });
 
@@ -246,7 +250,7 @@
                 mode: 'lines',
                 line: { color: COLORS[key], width: 1.5, dash: 'dot' },
                 hovertemplate: 'Year %{x:.1f}: %{y:.1f}% cycle loss<extra>' + SCENARIO_LABELS[key] + '</extra>',
-                visible: idx === 0 ? true : 'legendonly' // Only show Porto by default to avoid clutter
+                visible: (key === 'porto' || key === 'berlin_de_full') ? true : 'legendonly'
             });
 
             compTraces.push({
@@ -256,7 +260,7 @@
                 mode: 'lines',
                 line: { color: COLORS[key], width: 1.5, dash: 'solid' },
                 hovertemplate: 'Year %{x:.1f}: %{y:.1f}% calendar loss<extra>' + SCENARIO_LABELS[key] + '</extra>',
-                visible: idx === 0 ? true : 'legendonly'
+                visible: (key === 'porto' || key === 'berlin_de_full') ? true : 'legendonly'
             });
 
             // Find replacement events (where SOH jumps up)

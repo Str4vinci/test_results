@@ -74,12 +74,18 @@ const PLOT_CONFIG = {
 // Scenario color palette
 const COLORS = {
     porto: '#E8820C',
-    berlin_de_full: '#2196F3'
+    berlin: '#2196F3',
+    berlin_de_costs: '#00897B',
+    berlin_de_rlp: '#7B1FA2',
+    berlin_de_full: '#C62828'
 };
 
 const SCENARIO_LABELS = {
     porto: 'Porto',
+    berlin: 'Berlin (PT)',
+    berlin_de_costs: 'Berlin (DE costs)',
+    berlin_de_rlp: 'Berlin (DE load)',
     berlin_de_full: 'Berlin'
 };
 
-const SCENARIO_KEYS = ['porto', 'berlin_de_full'];
+const SCENARIO_KEYS = ['porto', 'berlin', 'berlin_de_costs', 'berlin_de_rlp', 'berlin_de_full'];
