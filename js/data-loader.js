@@ -51,13 +51,13 @@ const PLOT_DEFAULTS = {
     font: { family: "'Segoe UI', 'Roboto', sans-serif", size: 13, color: '#333' },
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    margin: { l: 60, r: 40, t: 80, b: 60 },
+    margin: { l: 60, r: 40, t: 80, b: 85 },
     hovermode: 'closest',
     showlegend: true,
     legend: {
         orientation: 'h',
         yanchor: 'top',
-        y: -0.15,
+        y: -0.25,
         xanchor: 'center',
         x: 0.5,
         font: { size: 12 }
