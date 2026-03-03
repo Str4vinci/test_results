@@ -2,7 +2,7 @@
  * Section 1: Porto vs Berlin Comparison Charts
  */
 (async function () {
-    const BASE = 'data/comparison/';
+    const BASE = (window.DATA_DIR || 'data/') + 'comparison/';
 
     // Load yearly summaries and cost projections for all 5 scenarios
     const summaryFiles = SCENARIO_KEYS.map(k => ({

@@ -1,90 +1,100 @@
 /**
- * Section 3: PV Orientation Optimization (Azimuth/Slope Heatmap + 3D Surface)
+ * Section 1: PV Orientation Optimization (Side-by-side Porto vs Berlin)
  */
 (async function () {
-    const data = await DataLoader.loadCSV('data/azislope/grid_search_data.csv');
+    const baseDir = window.DATA_DIR || 'data/';
+    const portoData = await DataLoader.loadCSV(baseDir + 'azislope/grid_search_porto.csv');
+    const berlinData = await DataLoader.loadCSV(baseDir + 'azislope/grid_search_berlin.csv');
 
-    // Extract unique sorted azimuths and slopes
-    const azimuths = [...new Set(data.map(r => r.Azimuth))].sort((a, b) => a - b);
-    const slopes = [...new Set(data.map(r => r.Slope))].sort((a, b) => a - b);
+    function processGridSearch(data) {
+        const azimuths = [...new Set(data.map(r => r.Azimuth))].sort((a, b) => a - b);
+        const slopes = [...new Set(data.map(r => r.Slope))].sort((a, b) => a - b);
 
-    // Pivot into 2D matrix: z[slopeIdx][azimuthIdx]
-    const zMatrix = [];
-    const dataMap = {};
-    data.forEach(r => {
-        dataMap[`${r.Azimuth}_${r.Slope}`] = r.Metric;
-    });
-
-    slopes.forEach(s => {
-        const row = [];
-        azimuths.forEach(a => {
-            row.push(dataMap[`${a}_${s}`] || null);
+        const dataMap = {};
+        data.forEach(r => {
+            dataMap[`${r.Azimuth}_${r.Slope}`] = r.Metric;
         });
-        zMatrix.push(row);
-    });
 
-    // Find optimal point
-    let bestNPV = -Infinity;
-    let bestAz = 0, bestSlope = 0;
-    data.forEach(r => {
-        if (r.Metric > bestNPV) {
-            bestNPV = r.Metric;
-            bestAz = r.Azimuth;
-            bestSlope = r.Slope;
-        }
-    });
+        const zMatrix = [];
+        slopes.forEach(s => {
+            const row = [];
+            azimuths.forEach(a => {
+                row.push(dataMap[`${a}_${s}`] || null);
+            });
+            zMatrix.push(row);
+        });
 
-    // === 3a: Heatmap ===
-    const heatmapTraces = [
-        {
-            x: azimuths,
-            y: slopes,
-            z: zMatrix,
-            type: 'heatmap',
-            colorscale: 'YlOrRd',
-            reversescale: false,
-            colorbar: { title: 'NPV (EUR)', titleside: 'right' },
-            hovertemplate: 'Azimuth: %{x}\u00B0<br>Slope: %{y}\u00B0<br>NPV: %{z:,.0f} EUR<extra></extra>'
-        },
-        // Optimal point marker
-        {
-            x: [bestAz],
-            y: [bestSlope],
-            mode: 'markers+text',
-            type: 'scatter',
-            marker: { size: 14, color: '#fff', symbol: 'star', line: { width: 2, color: '#333' } },
-            text: [`Optimal: ${bestAz}\u00B0, ${bestSlope.toFixed(0)}\u00B0`],
-            textposition: 'top center',
-            textfont: { size: 11, color: '#333' },
-            showlegend: false,
-            hovertemplate: `Optimal<br>Azimuth: ${bestAz}\u00B0<br>Slope: ${bestSlope.toFixed(1)}\u00B0<br>NPV: ${bestNPV.toFixed(0)} EUR<extra></extra>`
-        }
-    ];
+        let bestNPV = -Infinity;
+        let bestAz = 0, bestSlope = 0;
+        data.forEach(r => {
+            if (r.Metric > bestNPV) {
+                bestNPV = r.Metric;
+                bestAz = r.Azimuth;
+                bestSlope = r.Slope;
+            }
+        });
+
+        return { azimuths, slopes, zMatrix, bestNPV, bestAz, bestSlope };
+    }
+
+    const porto = processGridSearch(portoData);
+    const berlin = processGridSearch(berlinData);
+
+    function buildHeatmapTraces(d) {
+        return [
+            {
+                x: d.azimuths,
+                y: d.slopes,
+                z: d.zMatrix,
+                type: 'heatmap',
+                colorscale: 'YlOrRd',
+                reversescale: false,
+                colorbar: { title: 'NPV (EUR)', titleside: 'right' },
+                hovertemplate: 'Azimuth: %{x}\u00B0<br>Slope: %{y}\u00B0<br>NPV: %{z:,.0f} EUR<extra></extra>'
+            },
+            {
+                x: [d.bestAz],
+                y: [d.bestSlope],
+                mode: 'markers+text',
+                type: 'scatter',
+                marker: { size: 14, color: '#fff', symbol: 'star', line: { width: 2, color: '#333' } },
+                text: [`${d.bestAz.toFixed(0)}\u00B0, ${d.bestSlope.toFixed(0)}\u00B0`],
+                textposition: 'top center',
+                textfont: { size: 11, color: '#333' },
+                showlegend: false,
+                hovertemplate: `Optimal<br>Azimuth: ${d.bestAz}\u00B0<br>Slope: ${d.bestSlope.toFixed(1)}\u00B0<br>NPV: ${d.bestNPV.toFixed(0)} EUR<extra></extra>`
+            }
+        ];
+    }
 
     const heatmapLayout = {
         ...PLOT_DEFAULTS,
         xaxis: { title: 'Azimuth (\u00B0)', gridcolor: '#eee' },
         yaxis: { title: 'Slope (\u00B0)', gridcolor: '#eee' },
-        height: 500,
+        height: 450,
+        margin: { l: 60, r: 20, t: 30, b: 60 },
         showlegend: false
     };
 
-    Plotly.newPlot('chart-heatmap', heatmapTraces, heatmapLayout, PLOT_CONFIG);
+    Plotly.newPlot('chart-heatmap-porto', buildHeatmapTraces(porto), { ...heatmapLayout }, PLOT_CONFIG);
+    Plotly.newPlot('chart-heatmap-berlin', buildHeatmapTraces(berlin), { ...heatmapLayout }, PLOT_CONFIG);
 
-    // === 3b: 3D Surface ===
-    const surfaceTrace = [{
-        x: azimuths,
-        y: slopes,
-        z: zMatrix,
-        type: 'surface',
-        colorscale: 'YlOrRd',
-        colorbar: { title: 'NPV (EUR)' },
-        hovertemplate: 'Azimuth: %{x}\u00B0<br>Slope: %{y}\u00B0<br>NPV: %{z:,.0f} EUR<extra></extra>'
-    }];
+    // === 3D Surfaces ===
+    function buildSurfaceTrace(d) {
+        return [{
+            x: d.azimuths,
+            y: d.slopes,
+            z: d.zMatrix,
+            type: 'surface',
+            colorscale: 'YlOrRd',
+            colorbar: { title: 'NPV (EUR)' },
+            hovertemplate: 'Azimuth: %{x}\u00B0<br>Slope: %{y}\u00B0<br>NPV: %{z:,.0f} EUR<extra></extra>'
+        }];
+    }
 
     const surfaceLayout = {
         ...PLOT_DEFAULTS,
-        height: 550,
+        height: 450,
         scene: {
             xaxis: { title: 'Azimuth (\u00B0)' },
             yaxis: { title: 'Slope (\u00B0)' },
@@ -95,5 +105,6 @@
         showlegend: false
     };
 
-    Plotly.newPlot('chart-surface', surfaceTrace, surfaceLayout, PLOT_CONFIG);
+    Plotly.newPlot('chart-surface-porto', buildSurfaceTrace(porto), { ...surfaceLayout }, PLOT_CONFIG);
+    Plotly.newPlot('chart-surface-berlin', buildSurfaceTrace(berlin), { ...surfaceLayout }, PLOT_CONFIG);
 })();

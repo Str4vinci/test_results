@@ -305,6 +305,33 @@ select {
     color: #333;
 }
 
+/* === Side-by-Side Layout === */
+.side-by-side {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.side-by-side-item {
+    flex: 1;
+    min-width: 0;
+}
+
+.side-by-side-item h4 {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.side-by-side-item .plot-container {
+    min-height: 400px;
+}
+
 /* === Footer === */
 footer {
     padding: 32px 0;
@@ -316,7 +343,7 @@ footer {
 }
 
 /* === Responsive === */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     #hero h1 {
         font-size: 1.4rem;
     }

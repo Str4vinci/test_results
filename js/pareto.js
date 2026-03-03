@@ -2,8 +2,9 @@
  * Section 2: NSGA-II Pareto Front Visualizations
  */
 (async function () {
-    const portoData = await DataLoader.loadCSV('data/optimization/pareto_porto.csv');
-    const berlinData = await DataLoader.loadCSV('data/optimization/pareto_berlin.csv');
+    const baseDir = window.DATA_DIR || 'data/';
+    const portoData = await DataLoader.loadCSV(baseDir + 'optimization/pareto_porto.csv');
+    const berlinData = await DataLoader.loadCSV(baseDir + 'optimization/pareto_berlin.csv');
 
     // Tag each row with location
     portoData.forEach(r => r._location = 'porto');

@@ -15,9 +15,9 @@
         <div class="nav-inner">
             <span class="nav-title">PV+Battery Analysis</span>
             <div class="nav-links">
+                <a href="#orientation">Orientation</a>
                 <a href="#comparison">Comparison</a>
                 <a href="#optimization">Optimization</a>
-                <a href="#orientation">Orientation</a>
             </div>
         </div>
     </nav>
@@ -52,13 +52,59 @@
     </header>
 
     <main class="container">
-        <!-- Section 1: Porto vs Berlin Comparison -->
+        <!-- Section 1: PV Orientation -->
+        <section id="orientation">
+            <h2>PV Orientation Optimization</h2>
+            <p class="section-desc">Grid search over azimuth and slope angles for each location, evaluating the NPV
+                impact of PV panel orientation. The optimal orientation maximizes economic returns accounting for solar
+                geometry and energy balance. The results show that <strong>Porto</strong> achieves its best performance
+                at a slope of 35&deg; and azimuth of 180&deg; (due South), while <strong>Berlin</strong> benefits from
+                a slope of 40&deg; and azimuth of 160&deg; (South-Southeast). These optimized orientations are used in
+                the comparison scenarios that follow.</p>
+
+            <!-- 1a: Side-by-side Heatmaps -->
+            <div class="chart-block">
+                <h3>Orientation Landscape</h3>
+                <p class="chart-caption">NPV as a function of panel azimuth and slope angle. The star markers indicate
+                    the optimal configuration for each location.</p>
+                <div class="side-by-side">
+                    <div class="side-by-side-item">
+                        <h4>Porto</h4>
+                        <div id="chart-heatmap-porto" class="plot-container"></div>
+                    </div>
+                    <div class="side-by-side-item">
+                        <h4>Berlin</h4>
+                        <div id="chart-heatmap-berlin" class="plot-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1b: Side-by-side 3D Surfaces -->
+            <div class="chart-block">
+                <h3>3D Surface</h3>
+                <p class="chart-caption">Same data as rotatable 3D surfaces. Click and drag to rotate.</p>
+                <div class="side-by-side">
+                    <div class="side-by-side-item">
+                        <h4>Porto</h4>
+                        <div id="chart-surface-porto" class="plot-container"></div>
+                    </div>
+                    <div class="side-by-side-item">
+                        <h4>Berlin</h4>
+                        <div id="chart-surface-berlin" class="plot-container"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Porto vs Berlin Comparison -->
         <section id="comparison">
-            <h2>Porto vs Berlin Comparison</h2>
-            <p class="section-desc">Comparison of five scenarios isolating the effects of location, electricity tariffs,
-                and load profiles on system performance and economics. The base system (5 &times; 550W PV + 4 kWh
-                battery) is identical across the scenarios. <strong>Note:</strong> You can click on the scenarios in the
-                graph legends below to toggle them on and off.</p>
+            <h2>System Performance Comparison</h2>
+            <p class="section-desc">Using the optimized orientations identified above, we compare five scenarios
+                isolating the effects of location, electricity tariffs, and load profiles on system performance and
+                economics. The base system (5 &times; 550W PV + 4 kWh battery) is identical across the scenarios.
+                <strong>Note:</strong> You can click on the scenarios in the graph legends below to toggle them on and
+                off.
+            </p>
 
             <div class="scenario-legend">
                 <div class="legend-item">
@@ -124,7 +170,7 @@
             </div>
         </section>
 
-        <!-- Section 2: System Optimization -->
+        <!-- Section 3: System Optimization -->
         <section id="optimization">
             <h2>System Optimization (NSGA-II Pareto Fronts)</h2>
             <p class="section-desc">Multi-objective optimization results using NSGA-II, exploring trade-offs between
@@ -182,28 +228,7 @@
             </div>
         </section>
 
-        <!-- Section 3: PV Orientation -->
-        <section id="orientation">
-            <h2>PV Orientation Optimization</h2>
-            <p class="section-desc">Grid search over azimuth and slope angles for the Porto location, evaluating the NPV
-                impact of PV panel orientation. The optimal orientation maximizes economic returns accounting for solar
-                geometry and energy balance.</p>
 
-            <!-- 3a: Heatmap -->
-            <div class="chart-block">
-                <h3>Orientation Landscape</h3>
-                <p class="chart-caption">NPV as a function of panel azimuth and slope angle. The marker indicates the
-                    optimal configuration.</p>
-                <div id="chart-heatmap" class="plot-container"></div>
-            </div>
-
-            <!-- 3b: 3D Surface -->
-            <div class="chart-block">
-                <h3>3D Surface</h3>
-                <p class="chart-caption">Same data as a rotatable 3D surface. Click and drag to rotate.</p>
-                <div id="chart-surface" class="plot-container"></div>
-            </div>
-        </section>
     </main>
 
     <footer>
@@ -215,9 +240,9 @@
     </footer>
 
     <script src="js/data-loader.js"></script>
+    <script src="js/azislope.js"></script>
     <script src="js/comparison.js"></script>
     <script src="js/pareto.js"></script>
-    <script src="js/azislope.js"></script>
 </body>
 
 </html>

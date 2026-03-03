@@ -1,0 +1,18 @@
+Objective: max_production
+Total Time: 3.81s
+
+MODE: STANDARD
+------------------------------
+Raw Slope: 39.4597
+Raw Azimuth: 159.2335
+Raw Metric: 5787.5402
+Optimal (1deg): 5787.4037
+Discrete (5deg): 5787.3303
+
+MODE: EAST_WEST
+------------------------------
+Raw Slope: 10.0000
+Raw Metric: 4852.3684
+Optimal (1deg): 4852.3684
+Discrete (5deg): 4852.3684
+
